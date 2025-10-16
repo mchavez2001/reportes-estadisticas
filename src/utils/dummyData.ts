@@ -1,0 +1,827 @@
+// La data que se está usando es una versión de prueba de la base de datos real, por favor guiarse de la estructura para saber como se debe consumir
+
+export const GlosaryTerms = [
+  {
+    name: "Primas de Seguros Netas",
+    desc: "Primas de seguros, deducidas de anulaciones.",
+  },
+  {
+    name: "Siniestros de Primas de Seguros Netos",
+    desc: "Siniestros de primas de seguros, deducidos de anulaciones.",
+  },
+  {
+    name: "Siniestralidad",
+    desc: "Siniestros de primas de seguros netos/primas de seguros netas.",
+  },
+];
+
+export const yearly_net_premium = [
+  {
+    year: 2018,
+    value: 12868.7172,
+    usd: 3908480.72,
+  },
+  {
+    year: 2019,
+    value: 14113.51657,
+    usd: 4227684.45,
+  },
+  {
+    year: 2020,
+    value: 14021.35637,
+    usd: 3989892.56,
+  },
+  {
+    year: 2021,
+    value: 17695.456489999997,
+    usd: 4529191.3,
+  },
+  {
+    year: 2022,
+    value: 18746.27748,
+    usd: 4884641.17,
+  },
+  {
+    year: 2023,
+    value: 20265.8427,
+    usd: 5426926.05,
+  },
+  {
+    year: 2024,
+    value: 22186.1015,
+    usd: 5908766.0,
+  },
+  {
+    year: 2025,
+    value: 9367.5212,
+    usd: 2549480.13,
+  },
+];
+
+export const yearly_sinister_premium = [
+  {
+    year: 2018,
+    value: 6879.79821,
+    usd: 2090040.75,
+  },
+  {
+    year: 2019,
+    value: 7479.27992,
+    usd: 2240990.36,
+  },
+  {
+    year: 2020,
+    value: 7248.48992,
+    usd: 2062069.91,
+  },
+  {
+    year: 2021,
+    value: 10495.24808,
+    usd: 2702314.21,
+  },
+  {
+    year: 2022,
+    value: 10114.53059,
+    usd: 2644207.78,
+  },
+  {
+    year: 2023,
+    value: 9678.62575,
+    usd: 2593128.69,
+  },
+  {
+    year: 2024,
+    value: 9556.70409,
+    usd: 2545624.95,
+  },
+  {
+    year: 2025,
+    value: 4098.59706,
+    usd: 1115989.34,
+  },
+];
+
+export const yearly_percent_premium = [
+  {
+    year: 2018,
+    value: 53.46,
+  },
+  {
+    year: 2019,
+    value: 52.99,
+  },
+  {
+    year: 2020,
+    value: 51.7,
+  },
+  {
+    year: 2021,
+    value: 59.31,
+  },
+  {
+    year: 2022,
+    value: 53.95,
+  },
+  {
+    year: 2023,
+    value: 47.76,
+  },
+  {
+    year: 2024,
+    value: 43.08,
+  },
+  {
+    year: 2025,
+    value: 43.75,
+  },
+];
+
+export const categories = {
+  "Accidentes y Enfermedades": [
+    "Accidentes Personales",
+    "Asistencia Médica",
+    "Escolares",
+    "Seguro Obligatorio de Accidentes de Tránsito (SOAT)",
+  ],
+  Generales: [
+    "Agrícola",
+    "Animales",
+    "Aviación",
+    "Calderas",
+    "Cauciones",
+    "Comprensivo Contra Deshonestidad (3D)",
+    "Crédito a la Exportación",
+    "Crédito Interno",
+    "Cristales",
+    "Deshonestidad Frente a la Empresa",
+    "Domiciliario",
+    "Fianzas que garantizan obligaciones crediticias",
+    "Fianzas que garantizan otras obligaciones",
+    "Incendio",
+    "Líneas Aliadas Incendio",
+    "Líneas Aliadas Vehículos",
+    "Lucro Cesante",
+    "Lucro Cesante Rotura de Maquinaria",
+    "Marítimo - Cascos",
+    "Misceláneos",
+    "Montaje Contra Todo Riesgo",
+    "Multiseguros",
+    "Responsabilidad Civil",
+    "Robo y Asalto",
+    "Rotura de Maquinaria",
+    "Seguro de Bancos (BBB)",
+    "Terremoto",
+    "Todo Riesgo Equipo Electrónico",
+    "Todo Riesgo Equipo para Contratistas",
+    "Todo Riesgo para Contratistas",
+    "Transportes",
+    "Vehículos",
+  ],
+  "Seguros de Vida": [
+    "Desgravamen",
+    "Renta Particular",
+    "Seguro Complementario de Trabajo de Riesgo",
+    "Sepelio de Corto Plazo",
+    "Sepelio de Largo Plazo",
+    "Vida Grupo Particular",
+    "Vida Individual de Corto Plazo",
+    "Vida Individual de Largo Plazo",
+    "Vida Ley ex-trabajadores",
+    "Vida Ley Trabajadores",
+  ],
+  "Seguros del Sistema Privado de Pensiones": [
+    "Pensiones de Invalidez",
+    "Pensiones de Sobrevivencia",
+    "Renta de Jubilados",
+    "Seguros Previsionales (Invalidez, Sobrevivencia y Sepelio)",
+  ],
+};
+
+// export const filtered_data = [
+//   {
+//     year: 2018,
+//     value: 3908.48,
+//     usd: "3908480.72",
+//   },
+//   {
+//     year: 2019,
+//     value: 4227.68,
+//     usd: "4227684.45",
+//   },
+//   {
+//     year: 2020,
+//     value: 3989.89,
+//     usd: "3989892.56",
+//   },
+//   {
+//     year: 2021,
+//     value: 4529.19,
+//     usd: "4529191.30",
+//   },
+//   {
+//     year: 2022,
+//     value: 4884.64,
+//     usd: "4884641.17",
+//   },
+//   {
+//     year: 2023,
+//     value: 5426.93,
+//     usd: "5426926.05",
+//   },
+//   {
+//     year: 2024,
+//     value: 5908.77,
+//     usd: "5908766.00",
+//   },
+//   {
+//     year: 2025,
+//     value: 2549.48,
+//     usd: "2549480.13",
+//   },
+// ];
+
+export const filtered_data = [
+  {
+    month: 1,
+    year: 2018,
+    value: 329.09,
+    usd: "329087.63",
+  },
+  {
+    month: 2,
+    year: 2018,
+    value: 289.41,
+    usd: "289406.08",
+  },
+  {
+    month: 3,
+    year: 2018,
+    value: 316.48,
+    usd: "316478.90",
+  },
+  {
+    month: 4,
+    year: 2018,
+    value: 297.24,
+    usd: "297236.87",
+  },
+  {
+    month: 5,
+    year: 2018,
+    value: 328.84,
+    usd: "328837.75",
+  },
+  {
+    month: 6,
+    year: 2018,
+    value: 312.87,
+    usd: "312867.23",
+  },
+  {
+    month: 7,
+    year: 2018,
+    value: 338.52,
+    usd: "338524.10",
+  },
+  {
+    month: 8,
+    year: 2018,
+    value: 317.78,
+    usd: "317780.14",
+  },
+  {
+    month: 9,
+    year: 2018,
+    value: 330.33,
+    usd: "330334.45",
+  },
+  {
+    month: 10,
+    year: 2018,
+    value: 330.95,
+    usd: "330945.07",
+  },
+  {
+    month: 11,
+    year: 2018,
+    value: 344.56,
+    usd: "344561.72",
+  },
+  {
+    month: 12,
+    year: 2018,
+    value: 372.42,
+    usd: "372420.78",
+  },
+  {
+    month: 1,
+    year: 2019,
+    value: 376.13,
+    usd: "376128.05",
+  },
+  {
+    month: 2,
+    year: 2019,
+    value: 323.3,
+    usd: "323302.81",
+  },
+  {
+    month: 3,
+    year: 2019,
+    value: 327.4,
+    usd: "327397.21",
+  },
+  {
+    month: 4,
+    year: 2019,
+    value: 344.09,
+    usd: "344091.29",
+  },
+  {
+    month: 5,
+    year: 2019,
+    value: 351.01,
+    usd: "351007.72",
+  },
+  {
+    month: 6,
+    year: 2019,
+    value: 349.1,
+    usd: "349103.20",
+  },
+  {
+    month: 7,
+    year: 2019,
+    value: 358.55,
+    usd: "358548.01",
+  },
+  {
+    month: 8,
+    year: 2019,
+    value: 331.97,
+    usd: "331971.48",
+  },
+  {
+    month: 9,
+    year: 2019,
+    value: 333.37,
+    usd: "333373.39",
+  },
+  {
+    month: 10,
+    year: 2019,
+    value: 350.62,
+    usd: "350616.71",
+  },
+  {
+    month: 11,
+    year: 2019,
+    value: 364.21,
+    usd: "364211.90",
+  },
+  {
+    month: 12,
+    year: 2019,
+    value: 417.93,
+    usd: "417932.68",
+  },
+  {
+    month: 1,
+    year: 2020,
+    value: 371.81,
+    usd: "371813.17",
+  },
+  {
+    month: 2,
+    year: 2020,
+    value: 358.89,
+    usd: "358887.54",
+  },
+  {
+    month: 3,
+    year: 2020,
+    value: 329.29,
+    usd: "329289.10",
+  },
+  {
+    month: 4,
+    year: 2020,
+    value: 276.51,
+    usd: "276506.01",
+  },
+  {
+    month: 5,
+    year: 2020,
+    value: 268.8,
+    usd: "268801.73",
+  },
+  {
+    month: 6,
+    year: 2020,
+    value: 297.69,
+    usd: "297691.86",
+  },
+  {
+    month: 7,
+    year: 2020,
+    value: 329.27,
+    usd: "329265.59",
+  },
+  {
+    month: 8,
+    year: 2020,
+    value: 287.16,
+    usd: "287161.26",
+  },
+  {
+    month: 9,
+    year: 2020,
+    value: 327.94,
+    usd: "327935.43",
+  },
+  {
+    month: 10,
+    year: 2020,
+    value: 333.46,
+    usd: "333459.57",
+  },
+  {
+    month: 11,
+    year: 2020,
+    value: 395.2,
+    usd: "395204.65",
+  },
+  {
+    month: 12,
+    year: 2020,
+    value: 413.88,
+    usd: "413876.65",
+  },
+  {
+    month: 1,
+    year: 2021,
+    value: 379.78,
+    usd: "379779.00",
+  },
+  {
+    month: 2,
+    year: 2021,
+    value: 354.07,
+    usd: "354074.73",
+  },
+  {
+    month: 3,
+    year: 2021,
+    value: 358.92,
+    usd: "358921.19",
+  },
+  {
+    month: 4,
+    year: 2021,
+    value: 317.12,
+    usd: "317116.18",
+  },
+  {
+    month: 5,
+    year: 2021,
+    value: 346.07,
+    usd: "346072.47",
+  },
+  {
+    month: 6,
+    year: 2021,
+    value: 365.82,
+    usd: "365817.59",
+  },
+  {
+    month: 7,
+    year: 2021,
+    value: 346.25,
+    usd: "346250.18",
+  },
+  {
+    month: 8,
+    year: 2021,
+    value: 363.55,
+    usd: "363549.28",
+  },
+  {
+    month: 9,
+    year: 2021,
+    value: 369.64,
+    usd: "369636.25",
+  },
+  {
+    month: 10,
+    year: 2021,
+    value: 416.36,
+    usd: "416363.83",
+  },
+  {
+    month: 11,
+    year: 2021,
+    value: 430.38,
+    usd: "430382.02",
+  },
+  {
+    month: 12,
+    year: 2021,
+    value: 481.23,
+    usd: "481228.58",
+  },
+  {
+    month: 1,
+    year: 2022,
+    value: 447.24,
+    usd: "447240.63",
+  },
+  {
+    month: 2,
+    year: 2022,
+    value: 399.5,
+    usd: "399496.81",
+  },
+  {
+    month: 3,
+    year: 2022,
+    value: 406.66,
+    usd: "406661.26",
+  },
+  {
+    month: 4,
+    year: 2022,
+    value: 340.45,
+    usd: "340454.99",
+  },
+  {
+    month: 5,
+    year: 2022,
+    value: 362.9,
+    usd: "362903.85",
+  },
+  {
+    month: 6,
+    year: 2022,
+    value: 392.78,
+    usd: "392782.29",
+  },
+  {
+    month: 7,
+    year: 2022,
+    value: 366.64,
+    usd: "366639.72",
+  },
+  {
+    month: 8,
+    year: 2022,
+    value: 416.24,
+    usd: "416241.53",
+  },
+  {
+    month: 9,
+    year: 2022,
+    value: 405.04,
+    usd: "405035.86",
+  },
+  {
+    month: 10,
+    year: 2022,
+    value: 384.84,
+    usd: "384843.42",
+  },
+  {
+    month: 11,
+    year: 2022,
+    value: 461.93,
+    usd: "461931.93",
+  },
+  {
+    month: 12,
+    year: 2022,
+    value: 500.41,
+    usd: "500408.88",
+  },
+  {
+    month: 1,
+    year: 2023,
+    value: 439.05,
+    usd: "439054.52",
+  },
+  {
+    month: 2,
+    year: 2023,
+    value: 426.22,
+    usd: "426219.26",
+  },
+  {
+    month: 3,
+    year: 2023,
+    value: 440.45,
+    usd: "440449.99",
+  },
+  {
+    month: 4,
+    year: 2023,
+    value: 398.97,
+    usd: "398970.88",
+  },
+  {
+    month: 5,
+    year: 2023,
+    value: 429.97,
+    usd: "429965.71",
+  },
+  {
+    month: 6,
+    year: 2023,
+    value: 465.6,
+    usd: "465603.07",
+  },
+  {
+    month: 7,
+    year: 2023,
+    value: 419.78,
+    usd: "419775.86",
+  },
+  {
+    month: 8,
+    year: 2023,
+    value: 414.54,
+    usd: "414539.20",
+  },
+  {
+    month: 9,
+    year: 2023,
+    value: 461.29,
+    usd: "461289.65",
+  },
+  {
+    month: 10,
+    year: 2023,
+    value: 432.61,
+    usd: "432608.14",
+  },
+  {
+    month: 11,
+    year: 2023,
+    value: 500.87,
+    usd: "500866.59",
+  },
+  {
+    month: 12,
+    year: 2023,
+    value: 597.58,
+    usd: "597583.18",
+  },
+  {
+    month: 1,
+    year: 2024,
+    value: 496.31,
+    usd: "496306.95",
+  },
+  {
+    month: 2,
+    year: 2024,
+    value: 448.94,
+    usd: "448936.31",
+  },
+  {
+    month: 3,
+    year: 2024,
+    value: 480.55,
+    usd: "480552.14",
+  },
+  {
+    month: 4,
+    year: 2024,
+    value: 449.2,
+    usd: "449203.31",
+  },
+  {
+    month: 5,
+    year: 2024,
+    value: 478.82,
+    usd: "478822.09",
+  },
+  {
+    month: 6,
+    year: 2024,
+    value: 457.05,
+    usd: "457045.35",
+  },
+  {
+    month: 7,
+    year: 2024,
+    value: 463.94,
+    usd: "463935.05",
+  },
+  {
+    month: 8,
+    year: 2024,
+    value: 480.66,
+    usd: "480657.32",
+  },
+  {
+    month: 9,
+    year: 2024,
+    value: 527.56,
+    usd: "527558.94",
+  },
+  {
+    month: 10,
+    year: 2024,
+    value: 498.68,
+    usd: "498676.88",
+  },
+  {
+    month: 11,
+    year: 2024,
+    value: 523.67,
+    usd: "523673.83",
+  },
+  {
+    month: 12,
+    year: 2024,
+    value: 603.4,
+    usd: "603397.83",
+  },
+  {
+    month: 1,
+    year: 2025,
+    value: 535.27,
+    usd: "535269.58",
+  },
+  {
+    month: 2,
+    year: 2025,
+    value: 501.31,
+    usd: "501306.84",
+  },
+  {
+    month: 3,
+    year: 2025,
+    value: 513.81,
+    usd: "513813.20",
+  },
+  {
+    month: 4,
+    year: 2025,
+    value: 501.5,
+    usd: "501496.05",
+  },
+  {
+    month: 5,
+    year: 2025,
+    value: 497.59,
+    usd: "497594.46",
+  },
+  {
+    year: 2025,
+    month: 6,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 7,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 8,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 9,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 10,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 11,
+    value: null,
+  },
+  {
+    year: 2025,
+    month: 12,
+    value: null,
+  },
+];
+
+export const filters = {
+  category: "",
+  subCategory: "",
+  type: "Primas de Seguros Netas",
+  yearRange: [2018, 2025] as [number, number],
+  months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  byMonth: true,
+  inUSD: false,
+};
+
+export const last_year = 2025;
+
+export const last_month = 5;
