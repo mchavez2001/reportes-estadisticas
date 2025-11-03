@@ -38,8 +38,9 @@ import type {
   ChartDataPoint,
   ChartDataPointMonth,
 } from "./types/dashboard";
-import Report2023 from "./assets/images/report_2023.png";
+import Report2024 from "./assets/images/report_2024.png";
 import Report2025 from "./assets/images/report_2025.png";
+import SectionReportv2 from "./components/ui/SectionReportv2";
 import { API_PATHS } from "./utils/apiPaths"; // Aquí colocarán sus APIs
 import { axiosInstance } from "./utils/axiosInstance"; // Este es el instanciador de axios
 
@@ -321,11 +322,8 @@ const App = () => {
 
           {/* Componente: Sección de reporte 01 */}
           <SectionReport
-            title={"Reporte 2023"}
-            content={
-              "El sector asegurador peruano desembolsó diariamente S/ 4.6 millones para dar tranquilidad financiera a aquellas familias que perdieron a un ser querido en el 2023. Además, pagó S/ 3.3 millones para cubrir robos y daños a vehículos; S/ 2.4 millones destinados a la atención de salud, desde consultas ambulatorias hasta hospitalizaciones; S/ 1.8 millones para atender los daños originados por incendios y demás daños a los negocios; y S/ 1 millón para casos de SOAT, daños a viviendas, problemas de viajes y siniestros agrícolas. El dinero desembolsado por el sector asegurador duplicó a la inversión en infraestructura educativa y fue equivalente a 12 veces lo que se invertirá en la Vía Expresa Sur."
-            }
-            image={Report2023}
+            title={"Reporte 2024"}
+            image={Report2024}
             isBackground={true}
             contentSide="left"
             hasActionsButtons={true}
@@ -337,11 +335,8 @@ const App = () => {
           <Title title="Revisa nuestro Reporte Estadístico Trimestral" />
 
           {/* Componente: Sección de reporte 02 */}
-          <SectionReport
+          <SectionReportv2
             title={"Reporte Marzo 2025"}
-            content={
-              "A marzo del 2025, en términos anualizados, las 17 empresas del sector asegurador recibieron S/22,535 millones en primas de seguros netas (+9% respecto del 2024), siendo los seguros de vida (S/ 9,347 millones) los que más crecieron (+23.6%), pasando con ello a convertirse en el principal ramo de seguros (41.48% de las primas totales). El único ramo que tuvo una caída en el periodo fue el de seguros del Sistema Privado de Pensiones (-2.4%). Con estos resultados, la penetración del seguro en el Perú (primas / PBI) alcanzó el 2.06% con un gasto per cápita en seguros de US$ 180."
-            }
             image={Report2025}
             isBackground={false}
             contentSide="right"

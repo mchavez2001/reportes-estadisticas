@@ -1,13 +1,11 @@
 const SectionReport = ({
   title,
-  content,
   image,
   isBackground,
   contentSide,
   hasActionsButtons,
 }: {
   title: string;
-  content: string;
   image: string;
   isBackground: boolean;
   contentSide: string;
@@ -29,7 +27,18 @@ const SectionReport = ({
             {title}
           </h1>
           <p className="font-[Inter] mt-2 text-[16px] lg:text-[18px] text-pretty text-[#6F6F6E] leading-[1.3em]">
-            {content}
+            En el 2024, el sector asegurador entregó cada día{" "}
+            <b>S/ 4.5 millones</b> para apoyar a las familias que perdieron a un
+            ser querido. También desembolsó <b>S/ 3.3 millones</b> por robos,
+            daños vehiculares e indemnizaciones; <b>S/ 2.5 millones</b>{" "}
+            destinados a la atención de salud, desde consultas ambulatorias
+            hasta hospitalizaciones; <b>S/ 1.3 millones</b> para atender los
+            daños originados por incendios y demás daños a los negocios; y{" "}
+            <b>S/ 1.1 millones</b> para casos de SOAT, daños a viviendas,
+            problemas de viajes y siniestros agrícolas. El dinero desembolsado
+            superó en casi <b>S/ 2 millones</b> al gasto público conjunto de
+            tres regiones y fue casi el doble de la inversión inicial para el
+            Terminal Portuario de Chancay.
           </p>
         </div>
 
@@ -57,11 +66,11 @@ const SectionReport = ({
           </button>
           <button className="bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px]">
             <a
-              href="https://www.dimequetienesseguro.com/wp-content/uploads/2024/05/Radiografia-DQTS-interactivo.pdf"
+              href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/10/reporte-asegurador-2024.pdf"
               target="_blank"
               className="underline-none text-white font-semibold"
             >
-              Reporte 2022
+              Reporte 2024
             </a>
           </button>
         </div>
