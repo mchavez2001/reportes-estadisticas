@@ -89,7 +89,7 @@ const ResultsChart = ({
   const isMobile = useMediaQuery({
     query: "(max-width: 640px)",
   });
-
+//console.log("💵 [ResultsChart] inUSD recibido:", inUSD);
   if (!isVisible || data.length === 0) {
     return null;
   }

@@ -55,7 +55,6 @@ const BarChart = ({
         return "";
     }
   };
-
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm">
       <h3 className="text-[14px] text-center font-medium text-gray-800 mb-8">

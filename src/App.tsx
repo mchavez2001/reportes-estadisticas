@@ -40,85 +40,111 @@ import type {
 } from "./types/dashboard";
 import Report2023 from "./assets/images/report_2023.png";
 import Report2025 from "./assets/images/report_2025.png";
-// import { API_PATHS } from "./utils/apiPaths"; // Aquí colocarán sus APIs
+import { API_PATHS } from "./utils/apiPaths"; // Aquí colocarán sus APIs
 import { axiosInstance } from "./utils/axiosInstance"; // Este es el instanciador de axios
 
 const App = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const showResults = filtered_data ? true : false;
+  const [dashboardData, setDashboardData] = useState<any>({
+    filtered_data: filtered_data,
+    yearly_net_premium,
+    yearly_percent_premium,
+    yearly_sinister_premium,
+  });
+  const [filteredData, setFilteredData] = useState<any>(filtered_data);
 
-  //=== Ejemplo de consumo:
-  // const handleFilterSubmit = async (filters) => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       API_PATHS.DASHBOARD.GET_DASHBOARD_DATA
-  //     );
-  //     if (response.data.stats) {
-  //       setDashboardData(response.data);
-  //     }
-  //   } catch (error) {
-  //     if (error.response && error.response.data.message) {
-  //       console.error(error.response.data.message);
-  //     } else {
-  //       console.error("¡Algo salió mal. Inténtalo nuevamente!");
-  //     }
-  //   }
-  // };
+  const defaultFilters: FilterState = {
+    category: "",
+    subCategory: "",
+    type: "Primas de Seguros Netas",
+    yearRange: [2018, 2025],
+    months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    byMonth: true,
+    inUSD: false,
+  };
+  const [filtersState, setFiltersState] = useState<FilterState>(defaultFilters);
 
-  //=== El "useEffect" de React se renderizar la información recibida cada vez que se realice una petición
-  useEffect(() => {
-    // handleFilterSubmit(filters);
+  const handleFilterSubmit = async (filters: FilterState) => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.INSURANCE.GET_RESUMEN,
+        {
+          params: {
+            category: filters.category,
+            subCategory: filters.subCategory,
+            yearRange: filters.yearRange.join(","),
+            months: filters.months.join(","),
+            type: filters.type,
+            byMonth: filters.byMonth,
+            inUSD: filters.inUSD,
+          },
+        }
+      );
+
+      setDashboardData(response.data);
+      setFilteredData(response.data.filtered_data); // 🔹 actualizar filteredData desde API
+    } catch (error) {
+      console.log("Error completo:", error);
+      setFilteredData(null); // opcional: limpiar si falla
+    }
+  };
+
+  const handleSubmitAndKeepOpen = (filters: FilterState) => {
+    setFiltersState(filters);
+    handleFilterSubmit(filters);
     setIsOpen(true);
+  };
 
-    return () => {};
+  useEffect(() => {
+    handleSubmitAndKeepOpen(filtersState); // 🔹 cargar datos desde API al inicio
   }, []);
+
+  const showResults = filtered_data ? true : false;
+  //const showResults = filteredData && filteredData.length > 0;
 
   //----- Información de las categorías
   const categoriesData = [
     {
       name: "Primas de Seguros Netas",
       color: "#392a7e",
-      data: yearly_net_premium,
+      data: dashboardData?.yearly_net_premium,
     },
     {
       name: "Siniestros de Primas de Seguros Netos",
       color: "#00c19f",
-      data: yearly_sinister_premium,
+      data: dashboardData?.yearly_sinister_premium,
     },
     {
       name: "Siniestralidad",
       color: "#14B8A6",
-      data: yearly_percent_premium,
+      data: dashboardData?.yearly_percent_premium,
       typeChart: "line",
     },
   ];
 
   //----- Handlers -----//s
-  const handleFilterSubmit = (filters: FilterState) => {
-    // try {
-    //   const response = await axiosInstance.post({ENDPOINT,
-    //     category: filters.category,
-    //     subCategory: filters.subCategory,
-    //     yearRange: filters.yearRange,
-    //     months: filters.months,
-    //     type: filters.type,
-    //     byMonth: filters.byMonth,
-    //     inUSD: filters.inUSD,
-    //   });
-    // } catch (error) {
-    //   if (error.response && error.response.data.message) {
-    //     console.error(error.response.data.message);
-    //   } else {
-    //     console.error("¡Algo salió mal. Inténtalo nuevamente!");
-    //   }
-    // }
-    console.log(filters);
-  };
+  //const handleFilterSubmit = (filters: FilterState) => {
+  // try {
+  //   const response = await axiosInstance.post({ENDPOINT,
+  //     category: filters.category,
+  //     subCategory: filters.subCategory,
+  //     yearRange: filters.yearRange,
+  //     months: filters.months,
+  //     type: filters.type,
+  //     byMonth: filters.byMonth,
+  //     inUSD: filters.inUSD,
+  //   });
+  // } catch (error) {
+  //   if (error.response && error.response.data.message) {
+  //     console.error(error.response.data.message);
+  //   } else {
+  //     console.error("¡Algo salió mal. Inténtalo nuevamente!");
+  //   }
+  // }
+  //console.log(filters);
+  //};
 
-  const handleSubmitAndKeepOpen = (filters: FilterState) => {
-    handleFilterSubmit(filters);
-    setIsOpen(true);
-  };
+  //console.log("📦 filters actuales:", filtersState);
 
   return (
     <main className="min-h-screen">
@@ -155,9 +181,9 @@ const App = () => {
             {/* Componente: Grupo de estadísticas */}
             <ChartsGroup
               data={categoriesData}
-              last_month={last_month}
-              last_year={last_year}
-              in_usd={filters ? filters.inUSD : false}
+              last_month={dashboardData?.last_month}
+              last_year={dashboardData?.last_year}
+              in_usd={filtersState ? filtersState.inUSD : false}
             />
 
             {/* Fuente */}
@@ -261,10 +287,12 @@ const App = () => {
         className="container mx-auto px-4 max-w-7xl transition-opacity duration-500"
       >
         <ResultsChart
-          monthsFiltered={filters ? filters.months.length < 12 : false}
+          monthsFiltered={
+            filtersState ? filtersState.months.length < 12 : false
+          }
           data={
-            filtered_data
-              ? filtered_data
+            dashboardData?.filtered_data
+              ? dashboardData?.filtered_data
               : [
                   {
                     year: 2023,
@@ -276,7 +304,7 @@ const App = () => {
           category={filters ? filters.category : "Todos los ramos"}
           subCategory={filters ? filters.subCategory : "Todos los riesgos"}
           isVisible={showResults}
-          inUSD={filters ? filters.inUSD : false}
+          inUSD={filtersState ? filtersState.inUSD : false}
           color={
             categoriesData.filter(
               (item) => item.name == `${filters ? filters.type : "#4F46E5"}`

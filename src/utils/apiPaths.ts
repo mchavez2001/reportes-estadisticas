@@ -1,10 +1,17 @@
-//--- Aquí cambiar la URL base ---//
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://webapp.apeseg.org.pe/reportes-sbs";
 
-//--- Rutas de consumi de APIs ---//
 export const API_PATHS = {
-  // Ejemplo:
-  DASHBOARD: {
-    GET_DASHBOARD_DATA: "/api/dashboard-summary",
+  INSURANCE: {
+    GET_RESUMEN: "/api/insurance/resumen",
   },
 };
+
+/*
+export const BASE_URL = "/reportes-sbs/api";
+
+export const API_PATHS = {
+  INSURANCE: {
+    GET_RESUMEN: "/insurance/resumen",
+  },
+};
+*/
