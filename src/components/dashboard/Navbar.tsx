@@ -151,7 +151,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="https://www.apeseg.org.pe/estadisticas/"
+                href="https://www.apeseg.org.pe/reportes-estadisticas/"
                 className="font-['Montserrat',_sans-serif] text-[#6f6f6e] text-[0.95rem] font-medium hover:text-[#00c19f] [transition:all_0.3s_ease-in]"
               >
                 Reportes y estadísticas
