@@ -20,13 +20,13 @@ const ReportCardResponsive = () => {
     {
       title: "5%",
       content:
-        "del salario mínimo, en promedio, se destina al pago de seguros en el país",
+        "del salario mínimo, en promedio, se destina a la compra de seguros en el país",
       image: card3,
     },
     {
       title: "1 de cada 4",
       content:
-        "familias que enfrentó la pérdida de un ser querido estuvo cubierto por un seguro de vida",
+        "familias que enfrentó la pérdida de un ser querido estuvo cubierta por un seguro de vida",
       image: card4,
     },
     {
