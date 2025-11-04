@@ -213,17 +213,13 @@ const App = () => {
             {/* Componente: Carrusel de indicadores */}
             <IndicatorCardSlider />
 
-            {/* Fuente extra */}
-            <div className="mt-6 flex flex-col items-start justify-start gap-1">
-              <p className="text-xs md:text-sm text-start text-neutral-800">
-                * Datos correspondientes al primer trimestre del 2025.
-              </p>
-            </div>
-
             {/* Fuente */}
-            <div className="mt-6 flex items-end justify-end">
+            <div className="mt-5 flex flex-col items-end justify-end leading-0">
               <p className="text-sm text-end text-[#6F6F6E]">
-                Fuente y elaboración: SBS
+                * Datos acumulados de enero a mayo del 2025
+              </p>
+              <p className="text-sm text-end text-[#6F6F6E]">
+                Fuente: SBS | Elaboración: APESEG
               </p>
             </div>
           </div>
