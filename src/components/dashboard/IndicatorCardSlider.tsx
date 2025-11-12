@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReportCard from "../cards/ReportCard";
 import Icon01 from "../../assets/images/icon_01.png";
-import Icon02 from "../../assets/images/icon_01.png";
+import Icon02 from "../../assets/images/icon_02.png";
 
 const ReportCardSlider = () => {
   const cards = [
