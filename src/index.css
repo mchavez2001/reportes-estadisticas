@@ -8,15 +8,15 @@
 
 @layer base {
   html {
-    font-family: "Montserrat";
+    font-family: "Inter";
     background-color: #fff;
-  }
-
-  @font-face {
-    font-family: "Montserrat";
   }
 }
 
 .font-barlow {
   font-family: "Barlow Condensed";
+}
+
+.font-montserrat {
+  font-family: "Montserrat";
 }

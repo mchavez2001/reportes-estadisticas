@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import ReportCard from "../cards/ReportCard";
+import Icon01 from "../../assets/images/icon_01.png";
+import Icon02 from "../../assets/images/icon_01.png";
 
 const ReportCardSlider = () => {
   const cards = [
@@ -7,18 +9,20 @@ const ReportCardSlider = () => {
       title: "1",
       content:
         "reclamo por cada 1000 operaciones que realizan las aseguradoras",
+      image: Icon01,
     },
     {
       title: "6",
       content:
         "días en promedio, es el plazo de atención de las aseguradoras ante un reclamo cuando el plazo legal es hasta 15 días",
+      image: Icon02,
     },
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [visibleCards, setVisibleCards] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isLargeDesktop, setIsLargeDesktop] = useState(false);
 
   useEffect(() => {
@@ -104,14 +108,14 @@ const ReportCardSlider = () => {
     <div className="relative w-full max-w-7xl mx-auto px-4 py-8">
       {/* Contenedor del Slider */}
       <div
-        className="relative overflow-hidden"
+        className="flex justify-center relative overflow-hidden"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <div
           className={`flex transition-transform duration-300 ease-in-out ${
-            isLargeDesktop ? "justify-between gap-4" : ""
+            isLargeDesktop ? "justify-between gap-4" : "justify-center"
           }`}
         >
           {visibleCardsArray.map((card, index) => (
@@ -122,11 +126,14 @@ const ReportCardSlider = () => {
               } px-2 sm:px-4`}
               style={!isLargeDesktop ? { width: `${100 / visibleCards}%` } : {}}
             >
-              <div className={isLargeDesktop ? "h-full" : ""}>
+              <div
+                className={isLargeDesktop ? "h-full" : "flex justify-center"}
+              >
                 <ReportCard
                   title={card.title}
                   content={card.content}
                   width="206px"
+                  image={card.image}
                 />
               </div>
             </div>

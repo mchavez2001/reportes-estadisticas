@@ -2,22 +2,20 @@ interface ReportCardProps {
   title: string;
   content: string;
   width?: string;
-  image?: string; // 🔹 Nueva prop opcional
+  image?: string;
 }
 
 const ReportCard = ({ title, content, width, image }: ReportCardProps) => {
   return (
     <div
-      className={`h-[180px] max-sm:w-[75vw] md:w-[${
-        width || "265px"
-      }] p-[25px] flex flex-col gap-3 bg-[#E6F9F5] rounded-[10px]`}
+      className={`h-[180px] max-sm:w-[75vw] w-full md:max-w-[400px] p-[25px] flex flex-col gap-3 bg-[#E6F9F5] rounded-[10px]`}
     >
       {/* Contenedor título + imagen */}
       <div className="flex items-center gap-2">
         {image && (
           <img src={image} alt={title} className="w-10 h-10 object-contain" />
         )}
-        <h2 className="text-[#392A7E] text-[25px] font-bold">{title}</h2>
+        <h2 className="text-[#392A7E] text-[25px] font-bold font-montserrat">{title}</h2>
       </div>
 
       {/* Texto */}

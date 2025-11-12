@@ -23,7 +23,7 @@ const SectionReport = ({
         } flex-col-reverse  items-center justify-evenly rounded-[20px] `}
       >
         <div className="w-full max-w-[640px] flex-1 flex flex-col gap-2">
-          <h1 className="text-[#392A7E] text-[20px] lg:text-[28px] font-bold">
+          <h1 className="font-montserrat text-[#392A7E] text-[20px] lg:text-[28px] font-bold">
             {title}
           </h1>
           <p className="font-[Inter] mt-2 text-[16px] lg:text-[18px] text-pretty text-[#6F6F6E] leading-[1.3em]">
@@ -50,10 +50,10 @@ const SectionReport = ({
       </div>
 
       {hasActionsButtons && (
-        <div className="w-full max-w-[636px] mx-auto mb-12 lg:my-6 flex flex-col lg:flex-row items-center justify-center gap-6">
+        <div className="w-full max-w-7xl mx-auto mb-12 lg:my-6 flex flex-col lg:flex-row items-center justify-center gap-6">
           <p className="text-[18px] text-black font-semibold">
             Revisa nuestros reportes:
-          </p>          
+          </p>
           <button className="bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px]">
             <a
               href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/10/reporte-asegurador-2024.pdf"
@@ -63,7 +63,7 @@ const SectionReport = ({
               Reporte 2024
             </a>
           </button>
-          <button className="bg-[#696969] p-[10px] cursor-pointer rounded-[10px]">
+          <button className="bg-[#696969] hover:bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px] transition-colors duration-200">
             <a
               href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/09/radiografia-DQTS-interactivo-final_compressed.pdf"
               target="_blank"
@@ -72,7 +72,7 @@ const SectionReport = ({
               Reporte 2023
             </a>
           </button>
-          <button className="bg-[#696969] p-[10px] cursor-pointer rounded-[10px]">
+          <button className="bg-[#696969] hover:bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px] transition-colors duration-200">
             <a
               href="https://www.dimequetienesseguro.com/wp-content/uploads/2024/05/Radiografia-DQTS-interactivo.pdf"
               target="_blank"

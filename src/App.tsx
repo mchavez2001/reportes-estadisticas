@@ -39,7 +39,7 @@ import type {
   ChartDataPointMonth,
 } from "./types/dashboard";
 import Report2024 from "./assets/images/report_2024.png";
-import Report2025 from "./assets/images/report_2025.png";
+import Report2025 from "./assets/images/report_2025_v2.png";
 import SectionReportv2 from "./components/ui/SectionReportv2";
 import { API_PATHS } from "./utils/apiPaths"; // Aquí colocarán sus APIs
 import { axiosInstance } from "./utils/axiosInstance"; // Este es el instanciador de axios
@@ -332,7 +332,7 @@ const App = () => {
 
           {/* Componente: Sección de reporte 02 */}
           <SectionReportv2
-            title={"Reporte Marzo 2025"}
+            title={"Reporte Setiembre 2025"}
             image={Report2025}
             isBackground={false}
             contentSide="right"

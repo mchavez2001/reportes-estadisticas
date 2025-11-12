@@ -23,7 +23,7 @@ const SectionReportv2 = ({
         } flex-col-reverse  items-center justify-evenly rounded-[20px] `}
       >
         <div className="w-full max-w-[640px] flex-1 flex flex-col gap-2">
-          <h1 className="text-[#392A7E] text-[20px] lg:text-[28px] font-bold">
+          <h1 className="font-montserrat text-[#392A7E] text-[20px] lg:text-[28px] font-bold">
             {title}
           </h1>
           <p className="font-[Inter] mt-2 text-[16px] lg:text-[18px] text-pretty text-[#6F6F6E] leading-[1.3em]">
