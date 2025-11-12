@@ -190,7 +190,7 @@ const App = () => {
             {/* Fuente */}
             <div className="mt-5 flex flex-col items-end justify-end leading-0">
               <p className="text-sm text-end text-[#6F6F6E]">
-                * Datos acumulados de enero a mayo del 2025
+                * Datos acumulados de enero a setiembre del 2025
               </p>
               <p className="text-sm text-end text-[#6F6F6E]">
                 Fuente: SBS | Elaboración: APESEG
@@ -216,7 +216,7 @@ const App = () => {
             {/* Fuente */}
             <div className="mt-5 flex flex-col items-end justify-end leading-0">
               <p className="text-sm text-end text-[#6F6F6E]">
-                * Datos acumulados de enero a mayo del 2025
+                * Datos acumulados de enero a setiembre del 2025
               </p>
               <p className="text-sm text-end text-[#6F6F6E]">
                 Fuente: SBS | Elaboración: APESEG
