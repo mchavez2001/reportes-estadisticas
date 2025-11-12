@@ -53,17 +53,7 @@ const SectionReport = ({
         <div className="w-full max-w-[636px] mx-auto mb-12 lg:my-6 flex flex-col lg:flex-row items-center justify-center gap-6">
           <p className="text-[18px] text-black font-semibold">
             Revisa nuestros reportes:
-          </p>
-
-          <button className="bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px] hidden">
-            <a
-              href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/02/radiografia-DQTS-interactivo-2023-1.pdf"
-              target="_blank"
-              className="underline-none text-white font-semibold"
-            >
-              Reporte 2023
-            </a>
-          </button>
+          </p>          
           <button className="bg-[#00C19F] p-[10px] cursor-pointer rounded-[10px]">
             <a
               href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/10/reporte-asegurador-2024.pdf"
@@ -71,6 +61,24 @@ const SectionReport = ({
               className="underline-none text-white font-semibold"
             >
               Reporte 2024
+            </a>
+          </button>
+          <button className="bg-[#696969] p-[10px] cursor-pointer rounded-[10px]">
+            <a
+              href="https://www.dimequetienesseguro.com/wp-content/uploads/2025/09/radiografia-DQTS-interactivo-final_compressed.pdf"
+              target="_blank"
+              className="underline-none text-white font-semibold"
+            >
+              Reporte 2023
+            </a>
+          </button>
+          <button className="bg-[#696969] p-[10px] cursor-pointer rounded-[10px]">
+            <a
+              href="https://www.dimequetienesseguro.com/wp-content/uploads/2024/05/Radiografia-DQTS-interactivo.pdf"
+              target="_blank"
+              className="underline-none text-white font-semibold"
+            >
+              Reporte 2022
             </a>
           </button>
         </div>
