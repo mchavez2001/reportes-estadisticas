@@ -9,13 +9,13 @@ const ReportCardSlider = () => {
       title: "1",
       content:
         "reclamo por cada 1000 operaciones que realizan las aseguradoras",
-      image: Icon01,
+      image: Icon02,
     },
     {
       title: "6",
       content:
         "días en promedio, es el plazo de atención de las aseguradoras ante un reclamo cuando el plazo legal es hasta 15 días",
-      image: Icon02,
+      image: Icon01,
     },
   ];
 
