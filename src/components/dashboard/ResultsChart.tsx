@@ -111,7 +111,7 @@ const ResultsChart = ({
 
   //----- Termina: Cambios 1/12 ------//
 
-  const isMonthly = "month" in data[0];
+  const isMonthly = "month" in data[0] && (data[0] as any).month !== null;
   const years = Array.from(new Set(data.map((d: any) => d.year))).sort();
   const months = Array.from(new Set(data.map((d: any) => d.month))).sort();
   const hasManyYears = years.length * months.length > 48;
