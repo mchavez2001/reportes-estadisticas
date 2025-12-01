@@ -13,13 +13,13 @@ const ReportCard = ({ title, content, width, image }: ReportCardProps) => {
       {/* Contenedor título + imagen */}
       <div className="flex items-center gap-2">
         {image && (
-          <img src={image} alt={title} className="w-10 h-10 object-contain" />
+          <img src={image} alt={title} className="w-auto h-[30px] object-contain" />
         )}
         <h2 className="text-[#392A7E] text-[25px] font-bold font-montserrat">{title}</h2>
       </div>
 
       {/* Texto */}
-      <p className="text-pretty font-light text-[#6F6F6E] leading-[1.3em]">
+      <p className="text-sm md:text-base text-pretty font-light text-[#6F6F6E] leading-[1.3em]">
         {content}
       </p>
     </div>

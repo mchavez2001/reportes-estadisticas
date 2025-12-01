@@ -19,6 +19,7 @@ import type {
   ChartDataPoint,
   ChartDataPointMonth,
 } from "../../types/dashboard";
+import { formatAxisCurrency } from "../../utils/utils";
 
 interface ResultsChartProps {
   data: ChartDataPoint[] | ChartDataPointMonth[];
@@ -89,10 +90,26 @@ const ResultsChart = ({
   const isMobile = useMediaQuery({
     query: "(max-width: 640px)",
   });
-//console.log("💵 [ResultsChart] inUSD recibido:", inUSD);
   if (!isVisible || data.length === 0) {
     return null;
   }
+
+  //----- Empienza: Cambios 1/12 ------//
+  // 1. Detectar el valor máximo en la data actual
+  const maxValue = data.reduce((max: number, current: any) => {
+    const val = Number(current.value) || 0;
+    return val > max ? val : max;
+  }, 0);
+
+  // 2. Determinar la escala
+  const isMillionsScale = maxValue >= 1000000;
+
+  // 3. Definir la etiqueta del eje dinámicamente
+  const axisLabel = isMillionsScale
+    ? `${inUSD ? "Millones de US$" : "Millones de S/"}`
+    : `${inUSD ? "Miles de US$" : "Miles de S/"}`;
+
+  //----- Termina: Cambios 1/12 ------//
 
   const isMonthly = "month" in data[0];
   const years = Array.from(new Set(data.map((d: any) => d.year))).sort();
@@ -253,12 +270,15 @@ const ResultsChart = ({
                 tick={{ fontSize: 12 }}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -302,12 +322,15 @@ const ResultsChart = ({
                 domain={[0, 100]}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -359,12 +382,15 @@ const ResultsChart = ({
                 domain={[0, 100]}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -412,12 +438,15 @@ const ResultsChart = ({
                 tick={{ fontSize: 12 }}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -468,12 +497,15 @@ const ResultsChart = ({
                 tick={{ fontSize: 12 }}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -525,12 +557,15 @@ const ResultsChart = ({
                 tick={{ fontSize: 12 }}
                 tickLine={{ stroke: "#e0e0e0" }}
                 width={60}
-                tickFormatter={(value, _) => {
-                  return value.toLocaleString("es-PE", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  });
-                }}
+                // tickFormatter={(value, _) => {
+                //   return value.toLocaleString("es-PE", {
+                //     minimumFractionDigits: 1,
+                //     maximumFractionDigits: 1,
+                //   });
+                // }}
+                tickFormatter={(value) =>
+                  formatAxisCurrency(value, isMillionsScale)
+                }
               />
               <Tooltip
                 content={<CustomTooltip />}
