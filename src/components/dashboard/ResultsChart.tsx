@@ -181,6 +181,8 @@ const ResultsChart = ({
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
+      const currencyPrefix = inUSD ? "US$" : "S/";
+
       return (
         <div className="bg-white p-3 shadow-md rounded-md border border-gray-200">
           <p className="font-semibold">
@@ -192,23 +194,15 @@ const ResultsChart = ({
           </p>
           {payload.map((item: any, index: number) => (
             <p key={index} className="text-sm" style={{ color: item.color }}>
-              {isMonthly && type === "Siniestralidad"
+              {type === "Siniestralidad"
                 ? `Año ${item.name}: ${item.value.toLocaleString("es-PE", {
                     maximumFractionDigits: 1,
                   })}%`
-                : isMonthly
-                ? `Año ${item.name}: ${
-                    inUSD ? "" : "S/"
-                  } ${item.value.toLocaleString("es-PE", {
+                : `Año ${
+                    item.name
+                  }: ${currencyPrefix} ${item.value.toLocaleString("es-PE", {
                     maximumFractionDigits: 2,
-                  })} millones de ${inUSD ? "US$" : "soles"}`
-                : type === "Siniestralidad"
-                ? `${item.value.toLocaleString("es-PE", {
-                    maximumFractionDigits: 1,
-                  })}%`
-                : `${inUSD ? "" : "S/"} ${item.value.toLocaleString("es-PE", {
-                    maximumFractionDigits: 2,
-                  })} millones de ${inUSD ? "US$" : "soles"}`}
+                  })}`}
             </p>
           ))}
         </div>
@@ -260,7 +254,7 @@ const ResultsChart = ({
               />
               <YAxis
                 label={{
-                  value: `${inUSD ? "Millones de US$" : "Millones de S/"}`,
+                  value: axisLabel,
                   angle: -90,
                   position: "insideLeft",
                   offset: 0,
@@ -428,7 +422,7 @@ const ResultsChart = ({
               />
               <YAxis
                 label={{
-                  value: `${inUSD ? "Millones de US$" : "Millones de S/"}`,
+                  value: axisLabel,
                   angle: -90,
                   position: "insideLeft",
                   offset: 0,
@@ -487,7 +481,7 @@ const ResultsChart = ({
               />
               <YAxis
                 label={{
-                  value: `${inUSD ? "Millones de US$" : "Millones de S/"}`,
+                  value: axisLabel,
                   angle: -90,
                   position: "insideLeft",
                   offset: 0,
@@ -547,7 +541,7 @@ const ResultsChart = ({
               />
               <YAxis
                 label={{
-                  value: `${inUSD ? "Millones de US$" : "Millones de S/"}`,
+                  value: axisLabel,
                   angle: -90,
                   position: "insideLeft",
                   offset: 0,
