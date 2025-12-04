@@ -1,36 +1,24 @@
-//=== Librerías de terceros ===//
+// ==========================================
+// GRUPO 1: Importaciones y Constantes
+// ==========================================
 import {
   Bar,
   Line,
   XAxis,
   YAxis,
+  Legend,
   Tooltip,
   BarChart,
   LineChart,
   CartesianGrid,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
+import { useEffect, useState, useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useEffect, useState } from "react";
-
-//=== Archivos de utilidades ===//
 import type {
   ChartDataPoint,
   ChartDataPointMonth,
 } from "../../types/dashboard";
-import { formatAxisCurrency } from "../../utils/utils";
-
-interface ResultsChartProps {
-  data: ChartDataPoint[] | ChartDataPointMonth[];
-  category: string;
-  subCategory: string;
-  color?: string;
-  isVisible: boolean;
-  type: string;
-  inUSD: boolean;
-  monthsFiltered: boolean;
-}
 
 const yearColorsPrimas = [
   "#1B9B77",
@@ -46,36 +34,22 @@ const yearColorsPrimas = [
   "#F7BFD9",
   "#C6C6C6",
 ];
+const yearColorsSiniestros = [...yearColorsPrimas];
+const yearColorsSiniestralidad = [...yearColorsPrimas];
 
-const yearColorsSiniestros = [
-  "#1B9B77",
-  "#854091",
-  "#E6007E",
-  "#009FE3",
-  "#FFED00",
-  "#F28E77",
-  "#004F9F",
-  "#DB0812",
-  "#98C21D",
-  "#522583",
-  "#F7BFD9",
-  "#C6C6C6",
-];
-
-const yearColorsSiniestralidad = [
-  "#1B9B77",
-  "#854091",
-  "#E6007E",
-  "#009FE3",
-  "#FFED00",
-  "#F28E77",
-  "#004F9F",
-  "#DB0812",
-  "#98C21D",
-  "#522583",
-  "#F7BFD9",
-  "#C6C6C6",
-];
+// ==========================================
+// GRUPO 2: Interfaces y Tipos
+// ==========================================
+interface ResultsChartProps {
+  data: ChartDataPoint[] | ChartDataPointMonth[];
+  category: string;
+  subCategory: string;
+  color?: string;
+  isVisible: boolean;
+  type: string;
+  inUSD: boolean;
+  monthsFiltered: boolean;
+}
 
 const ResultsChart = ({
   data,
@@ -87,132 +61,172 @@ const ResultsChart = ({
   inUSD,
   monthsFiltered,
 }: ResultsChartProps) => {
-  const isMobile = useMediaQuery({
-    query: "(max-width: 640px)",
-  });
+  // ==========================================
+  // GRUPO 3: Hooks y Configuración Inicial
+  // ==========================================
+  const isMobile = useMediaQuery({ query: "(max-width: 640px)" });
+  const [hoveringDataKey, setHoveringDataKey] = useState<string | null>(null);
+  const [opacityMap, setOpacityMap] = useState<Record<string, number>>({});
+
   if (!isVisible || data.length === 0) {
     return null;
   }
 
-  //----- Empienza: Cambios 1/12 ------//
-  // 1. Detectar el valor máximo en la data actual
-  const maxValue = data.reduce((max: number, current: any) => {
-    const val = Number(current.value) || 0;
-    return val > max ? val : max;
-  }, 0);
-
-  // 2. Determinar la escala
-  const isMillionsScale = maxValue >= 1000000;
-
-  // 3. Definir la etiqueta del eje dinámicamente
-  const axisLabel = isMillionsScale
-    ? `${inUSD ? "Millones de US$" : "Millones de S/"}`
-    : `${inUSD ? "Miles de US$" : "Miles de S/"}`;
-
-  //----- Termina: Cambios 1/12 ------//
-
   const isMonthly = "month" in data[0] && (data[0] as any).month !== null;
-  const years = Array.from(new Set(data.map((d: any) => d.year))).sort();
-  const months = Array.from(new Set(data.map((d: any) => d.month))).sort();
-  const hasManyYears = years.length * months.length > 48;
+  const isSiniestralidad = type === "Siniestralidad";
 
-  let chartData: any[] = [];
+  // Define la etiqueta del Eje Y
+  const axisLabel = isSiniestralidad
+    ? "Porcentaje (%)"
+    : inUSD
+    ? "Millones de US$"
+    : "Millones de S/";
 
-  if (isMonthly) {
+  // ==========================================
+  // GRUPO 4: Procesamiento de Datos (MEMOIZADO)
+  // ==========================================
+
+  const years = useMemo(() => {
+    return Array.from(new Set(data.map((d: any) => d.year))).sort();
+  }, [data]);
+
+  const hasManyYears = years.length > 4;
+  const processedAnnualData = useMemo(() => {
+    if (isMonthly) return [];
+    if (!isSiniestralidad) return data as ChartDataPoint[];
+
+    return data.map((d: any) => ({
+      ...d,
+      value: d.value * 100,
+    })) as ChartDataPoint[];
+  }, [data, isSiniestralidad, isMonthly]);
+
+  const chartData = useMemo(() => {
+    if (!isMonthly) return [];
+
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
-    chartData = months
+    return months
       .map((month) => {
         const monthData: Record<string, any> = { month };
         years.forEach((year) => {
           const item = data.find(
             (d: any) => d.month === month && d.year === year
           );
-          monthData[year] = item ? item.value : 0;
+          const rawValue = item ? item.value : 0;
+          monthData[year] = isSiniestralidad ? rawValue * 100 : rawValue;
         });
         return monthData;
       })
-      .filter((monthData) => {
-        return years.some((year) => monthData[year] !== 0);
-      });
-  }
+      .filter((monthData) => years.some((year) => monthData[year] !== 0));
+  }, [isMonthly, years, data, isSiniestralidad]);
 
-  let yearColors = yearColorsPrimas;
+  // ==========================================
+  // GRUPO 5: Configuración de Ejes y Formateadores
+  // ==========================================
 
-  switch (type) {
-    case "Siniestros de Primas de Seguros Netos":
-      yearColors = yearColorsSiniestros;
-      break;
-    case "Siniestralidad":
-      yearColors = yearColorsSiniestralidad;
-      break;
-  }
+  const yearColors = useMemo(() => {
+    if (type === "Siniestros de Primas de Seguros Netos")
+      return yearColorsSiniestros;
+    if (isSiniestralidad) return yearColorsSiniestralidad;
+    return yearColorsPrimas;
+  }, [type, isSiniestralidad]);
 
-  /* Efecto de opacidad */
-  const [hoveringDataKey, setHoveringDataKey] = useState(null);
-  //Mapa de año con opacidad
-  const [opacityMap, setOpacityMap] = useState<Record<number, number>>(
-    Object.fromEntries(years.map((year) => [year, 1]))
-  );
+  const formatNumber = (value: number) => {
+    return value.toLocaleString("es-PE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const formatAxisTick = (value: number) => {
+    if (isSiniestralidad) {
+      return `${value.toLocaleString("es-PE", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })}%`;
+    }
+    return formatNumber(value);
+  };
+
+  const commonYAxisProps = {
+    label: {
+      value: axisLabel,
+      angle: -90,
+      position: "insideLeft",
+      offset: 0,
+      style: { textAnchor: "middle", fontSize: 12 },
+    },
+    hide: isMobile,
+    tick: { fontSize: 12 },
+    tickLine: { stroke: "#e0e0e0" },
+    width: isSiniestralidad ? 60 : 70,
+    tickFormatter: formatAxisTick,
+  };
+
+  // ==========================================
+  // GRUPO 6: Manejadores de Eventos y Efectos
+  // ==========================================
 
   useEffect(() => {
-    const newOpacityMap: Record<number, number> = {};
-
-    switch (hoveringDataKey) {
-      case null:
-        years.forEach((year) => (newOpacityMap[year] = 1));
-        break;
-      default:
-        years.forEach((year) => {
-          newOpacityMap[year] = year == hoveringDataKey ? 1 : 0.2;
-        });
-        break;
-    }
-
+    const newOpacityMap: Record<string, number> = {};
+    years.forEach((year) => {
+      newOpacityMap[year] =
+        hoveringDataKey === null || hoveringDataKey === year.toString()
+          ? 1
+          : 0.2;
+    });
     setOpacityMap(newOpacityMap);
-  }, [hoveringDataKey]);
+  }, [hoveringDataKey, years]);
 
-  const handleMouseEnter = (payload: any) => {
+  const handleMouseEnter = (payload: any) =>
     setHoveringDataKey(payload.dataKey);
-  };
+  const handleMouseLeave = () => setHoveringDataKey(null);
 
-  const handleMouseLeave = () => {
-    setHoveringDataKey(null);
-  };
-
+  // ==========================================
+  // GRUPO 7: Componentes Auxiliares (Tooltip)
+  // ==========================================
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
-      const currencyPrefix = inUSD ? "US$" : "S/";
+      const title = isMonthly
+        ? new Date(0, label - 1).toLocaleString("es-PE", { month: "short" })
+        : label;
 
       return (
-        <div className="bg-white p-3 shadow-md rounded-md border border-gray-200">
-          <p className="font-semibold">
-            {isMonthly
-              ? `${new Date(0, label - 1).toLocaleString("es-PE", {
-                  month: "short",
-                })}`
-              : `${label}`}
-          </p>
-          {payload.map((item: any, index: number) => (
-            <p key={index} className="text-sm" style={{ color: item.color }}>
-              {type === "Siniestralidad"
-                ? `Año ${item.name}: ${item.value.toLocaleString("es-PE", {
-                    maximumFractionDigits: 1,
-                  })}%`
-                : `Año ${
-                    item.name
-                  }: ${currencyPrefix} ${item.value.toLocaleString("es-PE", {
-                    maximumFractionDigits: 2,
-                  })}`}
-            </p>
-          ))}
+        <div className="bg-white p-3 shadow-md rounded-md border border-gray-200 z-50">
+          <p className="font-semibold capitalize mb-1">{title}</p>
+          {payload.map((item: any, index: number) => {
+            let valueText = "";
+            if (isSiniestralidad) {
+              // Caso Porcentaje: "Año 2019: 18.00%"
+              valueText = `${formatNumber(item.value)}%`;
+            } else {
+              // Caso Moneda: "Año 2019: S/ 1.27 millones"
+              const currencyPrefix = inUSD ? "US$" : "S/";
+              valueText = `${currencyPrefix} ${formatNumber(
+                item.value
+              )} millones`;
+            }
+
+            return (
+              <p key={index} className="text-sm" style={{ color: item.color }}>
+                {`Año ${item.name}: ${valueText}`}
+              </p>
+            );
+          })}
         </div>
       );
     }
     return null;
   };
 
+  // ==========================================
+  // GRUPO 8: Renderizado Principal (JSX)
+  // ==========================================
   return (
-    <div id="results" className="mb-8 rounded-lg shadow-sm p-6 animate-fadeIn">
+    <div
+      id="results"
+      className="mb-8 rounded-lg shadow-sm p-6 animate-fadeIn bg-white"
+    >
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-gray-800 mb-2">Resultados</h3>
         <p className="mt-4 text-gray-600 text-[14px] mb-4">
@@ -223,16 +237,14 @@ const ResultsChart = ({
           para{" "}
           <span className="bg-gradient-to-r from-[#0003a4] to-[#3bb29a] bg-clip-text text-transparent font-[600]">
             {category === "" ? `Todos los ramos` : category} /{" "}
-          </span>
-          <span className="bg-gradient-to-r from-[#0003a4] to-[#3bb29a] bg-clip-text text-transparent font-[600]">
             {subCategory === "" ? `Todos los riesgos` : subCategory}
           </span>
         </p>
       </div>
 
       <div className="w-full h-80">
-        <div className="sm:hidden text-center text-sm font-medium mb-2">
-          {inUSD ? "Millones de US$" : "Millones de S/"}
+        <div className="sm:hidden text-center text-sm font-medium mb-2 text-gray-600">
+          {axisLabel}
         </div>
 
         <ResponsiveContainer width="100%" height="100%" className="-mb-2">
@@ -246,42 +258,12 @@ const ResultsChart = ({
               <XAxis
                 dataKey="month"
                 tickFormatter={(m) =>
-                  new Date(0, m - 1).toLocaleString("es-PE", {
-                    month: "short",
-                  })
+                  new Date(0, m - 1).toLocaleString("es-PE", { month: "short" })
                 }
                 tick={{ fontSize: 12 }}
               />
-              <YAxis
-                label={{
-                  value: axisLabel,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               {years.map((year, index) => (
                 <Bar
                   key={year}
@@ -294,7 +276,7 @@ const ResultsChart = ({
             </BarChart>
           ) : type === "Siniestralidad" && !isMonthly ? (
             <LineChart
-              data={data as ChartDataPoint[]}
+              data={processedAnnualData}
               margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -303,37 +285,8 @@ const ResultsChart = ({
                 tick={{ fontSize: 12 }}
                 tickLine={{ stroke: "#e0e0e0" }}
               />
-              <YAxis
-                label={{
-                  value: `Porcentaje`,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                domain={[0, 100]}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               <Line
                 dataKey="value"
                 type="monotone"
@@ -363,37 +316,8 @@ const ResultsChart = ({
                 }
                 tick={{ fontSize: 12 }}
               />
-              <YAxis
-                label={{
-                  value: `Porcentaje`,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                domain={[0, 100]}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               {years.map((year, index) => (
                 <Line
                   key={year}
@@ -410,7 +334,7 @@ const ResultsChart = ({
             </LineChart>
           ) : !isMonthly ? (
             <BarChart
-              data={data as ChartDataPoint[]}
+              data={processedAnnualData}
               margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -420,36 +344,8 @@ const ResultsChart = ({
                 tickLine={{ stroke: "#e0e0e0" }}
                 interval={0}
               />
-              <YAxis
-                label={{
-                  value: axisLabel,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               <Bar
                 dataKey="value"
                 name={`${subCategory} - Valor`}
@@ -473,42 +369,12 @@ const ResultsChart = ({
               <XAxis
                 dataKey="month"
                 tickFormatter={(m) =>
-                  new Date(0, m - 1).toLocaleString("es-PE", {
-                    month: "short",
-                  })
+                  new Date(0, m - 1).toLocaleString("es-PE", { month: "short" })
                 }
                 tick={{ fontSize: 12 }}
               />
-              <YAxis
-                label={{
-                  value: axisLabel,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               {years.map((year, index) => (
                 <Line
                   key={year}
@@ -533,42 +399,12 @@ const ResultsChart = ({
               <XAxis
                 dataKey="month"
                 tickFormatter={(m) =>
-                  new Date(0, m - 1).toLocaleString("es-PE", {
-                    month: "short",
-                  })
+                  new Date(0, m - 1).toLocaleString("es-PE", { month: "short" })
                 }
                 tick={{ fontSize: 12 }}
               />
-              <YAxis
-                label={{
-                  value: axisLabel,
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  style: { textAnchor: "middle", fontSize: 12 },
-                }}
-                hide={isMobile ? true : false}
-                tick={{ fontSize: 12 }}
-                tickLine={{ stroke: "#e0e0e0" }}
-                width={60}
-                // tickFormatter={(value, _) => {
-                //   return value.toLocaleString("es-PE", {
-                //     minimumFractionDigits: 1,
-                //     maximumFractionDigits: 1,
-                //   });
-                // }}
-                tickFormatter={(value) =>
-                  formatAxisCurrency(value, isMillionsScale)
-                }
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  borderRadius: "4px",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                  border: "none",
-                }}
-              />
+              <YAxis {...commonYAxisProps} />
+              <Tooltip content={<CustomTooltip />} />
               {years.map((year, index) => (
                 <Bar
                   key={year}
@@ -582,7 +418,6 @@ const ResultsChart = ({
           )}
         </ResponsiveContainer>
 
-        {/* Fuente */}
         <div className="mt-12 flex items-end justify-end">
           <p className="text-sm text-end text-[#6F6F6E]">
             Fuente: SBS | Elaboración: APESEG

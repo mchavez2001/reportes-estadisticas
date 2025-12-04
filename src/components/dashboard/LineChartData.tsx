@@ -9,9 +9,9 @@ import {
   YAxis,
 } from "recharts";
 import { Info } from "lucide-react";
+import { useMemo } from "react"; // 1. Importamos useMemo
 
 import type { CategoryData } from "../../types/dashboard";
-
 import { GlosaryTerms } from "../../utils/dummyData";
 
 interface LineChartProps {
@@ -21,28 +21,24 @@ interface LineChartProps {
   last_year: number;
 }
 
-const months = [
-  "enero",
-  "febrero",
-  "marzo",
-  "abril",
-  "mayo",
-  "junio",
-  "julio",
-  "agosto",
-  "septiembre",
-  "octubre",
-  "noviembre",
-  "diciembre",
-];
-
 const LineChartData = ({
   data,
   height = 300,
   last_month,
   last_year,
 }: LineChartProps) => {
-  //--- Obtenemos cada término según el órden
+  // 2. Procesamos la data: Si es Siniestralidad, multiplicamos por 100
+  // para que escale correctamente en el dominio [0, 100]
+  const chartData = useMemo(() => {
+    if (data.name === "Siniestralidad") {
+      return data.data.map((item) => ({
+        ...item,
+        value: item.value * 100, // Conversión de decimal (0.5) a porcentaje (50)
+      }));
+    }
+    return data.data;
+  }, [data]);
+
   const getGlosaryTerm = (name: string) => {
     switch (name) {
       case "Primas de Seguros Netas":
@@ -83,11 +79,14 @@ const LineChartData = ({
       <div className="w-full" style={{ height: `${height}px` }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={data.data}
+            data={chartData} // 3. Usamos la data procesada
             margin={{ top: 10, right: 30, left: 20, bottom: 25 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+
+            {/* El dominio 0-100 ahora tiene sentido porque los datos son 40, 50, etc. */}
             <YAxis hide={true} domain={[0, 100]} />
+
             <XAxis
               dataKey="year"
               tickFormatter={(value, _) => {
@@ -98,6 +97,7 @@ const LineChartData = ({
               tick={{ fontSize: 12 }}
               tickLine={{ stroke: "#e0e0e0" }}
             />
+
             <Tooltip
               formatter={(value: number) =>
                 data.name === "Siniestralidad"
@@ -111,12 +111,17 @@ const LineChartData = ({
                     })}`
               }
             />
+
             <Line
               dataKey="value"
               name={data.name}
+              stroke={data.color} // 4. Agregado stroke para que la línea tenga color
               fill={data.color}
+              strokeWidth={3} // 5. Agregado grosor para mejor visibilidad
               animationDuration={1500}
               animationEasing="ease-out"
+              dot={{ r: 4, strokeWidth: 2 }} // Opcional: Estilo de puntos
+              activeDot={{ r: 6 }}
             >
               <LabelList
                 dataKey="value"

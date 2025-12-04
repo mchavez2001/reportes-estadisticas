@@ -297,15 +297,31 @@ const App = () => {
                   },
                 ]
           }
-          type={filters ? filters.type : "Primas de Seguros Netas"}
-          category={filters ? filters.category : "Todos los ramos"}
-          subCategory={filters ? filters.subCategory : "Todos los riesgos"}
+          type={filtersState ? filtersState.type : "Primas de Seguros Netas"}
+          category={
+            !filtersState ||
+            !filtersState.category ||
+            filtersState.category === ""
+              ? "Todos los ramos"
+              : filtersState.category
+          }
+          subCategory={
+            !filtersState ||
+            !filtersState.subCategory ||
+            filtersState.subCategory === ""
+              ? "Todos los riesgos"
+              : filtersState.subCategory
+          }
           isVisible={showResults}
           inUSD={filtersState ? filtersState.inUSD : false}
           color={
             categoriesData.filter(
-              (item) => item.name == `${filters ? filters.type : "#4F46E5"}`
-            )[0]?.color
+              (item) =>
+                item.name ==
+                `${
+                  filtersState ? filtersState.type : "Primas de Seguros Netas"
+                }`
+            )[0]?.color || "#4F46E5"
           }
         />
       </section>

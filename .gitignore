@@ -1,2 +1,3 @@
 # Build de producción
 dist/
+node_modules
