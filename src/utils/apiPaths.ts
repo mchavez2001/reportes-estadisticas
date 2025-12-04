@@ -1,5 +1,5 @@
-export const BASE_URL = "https://webapp.apeseg.org.pe/reportes-sbs";
-//export const BASE_URL = "https://apeseg-api.preciso.website";
+//export const BASE_URL = "https://webapp.apeseg.org.pe/reportes-sbs";
+export const BASE_URL = "https://apeseg-api.preciso.website";
 
 export const API_PATHS = {
   INSURANCE: {
