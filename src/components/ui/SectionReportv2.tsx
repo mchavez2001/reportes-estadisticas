@@ -27,7 +27,7 @@ const SectionReportv2 = ({
             {title}
           </h1>
           <p className="font-[Inter] mt-2 text-[16px] lg:text-[18px] text-pretty text-[#6F6F6E] leading-[1.3em]">
-            A marzo del 2025, en términos anualizados, las 17 empresas del
+            A setiembre del 2025, en términos anualizados, las 17 empresas del
             sector asegurador recibieron S/22,535 millones en primas de seguros
             netas (+9% respecto del 2024), siendo los seguros de vida (S/ 9,347
             millones) los que más crecieron (+23.6%), pasando con ello a
