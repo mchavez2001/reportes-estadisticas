@@ -27,15 +27,7 @@ const SectionReportv2 = ({
             {title}
           </h1>
           <p className="font-[Inter] mt-2 text-[16px] lg:text-[18px] text-pretty text-[#6F6F6E] leading-[1.3em]">
-            A setiembre del 2025, en términos anualizados, las 17 empresas del
-            sector asegurador recibieron S/22,535 millones en primas de seguros
-            netas (+9% respecto del 2024), siendo los seguros de vida (S/ 9,347
-            millones) los que más crecieron (+23.6%), pasando con ello a
-            convertirse en el principal ramo de seguros (41.48% de las primas
-            totales). El único ramo que tuvo una caída en el periodo fue el de
-            seguros del Sistema Privado de Pensiones (-2.4%). Con estos
-            resultados, la penetración del seguro en el Perú (primas / PBI)
-            alcanzó el 2.06% con un gasto per cápita en seguros de US$ 180.
+            A diciembre del 2025, en términos anualizados, las 17 empresas del sector asegurador recibieron S/24,035 millones en primas de seguros netas (+8.3% respecto del 2024), siendo los seguros de vida (S/ 11,160 millones) los que más crecieron (+26.6%), consolidándose con ello en el principal ramo de seguros (46.43% de las primas totales). En el l trimestre, dos ramos exhibieron resultados negativos, con la caída anualizada más fuerte experimentada por el ramo de seguros del Sistema Privado de Pensiones (-11.7%). Con estos resultados, la penetración del seguro en el Perú (primas / PBI) alcanzó el 2.04% con un gasto per cápita anual en seguros de US$ 173.
           </p>
         </div>
 
