@@ -190,7 +190,7 @@ const App = () => {
             {/* Fuente */}
             <div className="mt-5 flex flex-col items-end justify-end leading-0">
               <p className="text-sm text-end text-[#6F6F6E]">
-                * Datos acumulados de enero a setiembre del 2025
+                * Datos acumulados de enero a diciembre del 2025
               </p>
               <p className="text-sm text-end text-[#6F6F6E]">
                 Fuente: SBS | Elaboración: APESEG
@@ -216,7 +216,7 @@ const App = () => {
             {/* Fuente */}
             <div className="mt-5 flex flex-col items-end justify-end leading-0">
               <p className="text-sm text-end text-[#6F6F6E]">
-                * Datos acumulados de enero a setiembre del 2025
+                * Datos acumulados de enero a diciembre del 2025
               </p>
               <p className="text-sm text-end text-[#6F6F6E]">
                 Fuente: SBS | Elaboración: APESEG
@@ -348,7 +348,7 @@ const App = () => {
 
           {/* Componente: Sección de reporte 02 */}
           <SectionReportv2
-            title={"Reporte Setiembre 2025"}
+            title={"Reporte Diciembre 2025"}
             image={Report2025}
             isBackground={false}
             contentSide="right"
