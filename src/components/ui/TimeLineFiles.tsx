@@ -36,6 +36,11 @@ const TimeLineFiles = () => {
           pdfUrl:
             "https://www.apeseg.org.pe/wp-content/uploads/2025/10/Resultados-Sistema-Asegurador-3T25-web.pdf",
         },
+        {
+          name: "4to trimestre 2025"`,
+          pdfUrl":
+            "https://www.apeseg.org.pe/wp-content/uploads/2026/02/Resultados-Sistema-Asegurador-4T25-web.pdf",
+        },
       ],
     },
     {
